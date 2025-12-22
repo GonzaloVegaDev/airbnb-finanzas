@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Finanzas</title>
+</head>
+<body>
+
+<h1>Dashboard Financiero</h1>
+
+<h2>Balance General</h2>
+<ul>
+    <li>Ingresos: ${{ balance_general.ingresos }}</li>
+    <li>Gastos: ${{ balance_general.gastos }}</li>
+    <li><strong>Utilidad: ${{ balance_general.utilidad }}</strong></li>
+</ul>
+
+<h2>Balance Mensual ({{ mes }}/{{ anio }})</h2>
+<ul>
+    <li>Ingresos: ${{ balance_mensual.ingresos }}</li>
+    <li>Gastos: ${{ balance_mensual.gastos }}</li>
+    <li><strong>Utilidad: ${{ balance_mensual.utilidad }}</strong></li>
+</ul>
+
+<h2>Balance Anual ({{ anio }})</h2>
+<ul>
+    <li>Ingresos: ${{ balance_anual.ingresos }}</li>
+    <li>Gastos: ${{ balance_anual.gastos }}</li>
+    <li><strong>Utilidad: ${{ balance_anual.utilidad }}</strong></li>
+</ul>
+
+<p>
+    <a href="/admin/">Ir al Admin</a>
+</p>
+
+</body>
+</html>

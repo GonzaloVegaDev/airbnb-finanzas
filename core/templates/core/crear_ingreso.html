@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo ingreso</title>
+</head>
+<body>
+
+<h1>Nuevo ingreso</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="{% url 'dashboard' %}">Volver al dashboard</a>
+
+</body>
+</html>

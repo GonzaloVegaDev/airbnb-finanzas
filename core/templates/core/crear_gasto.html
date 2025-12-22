@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo Gasto</title>
+</head>
+<body>
+
+<h2>Registrar Gasto</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="{% url 'dashboard' %}">Volver</a>
+
+</body>
+</html>

@@ -1,100 +1,57 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from django.db.models.functions import TruncMonth, TruncYear
-from .models import Propiedad, Ingreso, Gasto
-
+from django.shortcuts import render, redirect
+from .models import Ingreso, Gasto
+from .forms import IngresoForm, GastoForm
 
 @login_required
 def dashboard(request):
-    propiedades = Propiedad.objects.all()
+    ingresos_total = Ingreso.objects.aggregate(Sum('monto_bruto'))['monto_bruto__sum'] or 0
+    gastos_total = Gasto.objects.aggregate(Sum('monto'))['monto__sum'] or 0
+    balance = ingresos_total - gastos_total
+    return render(request, "core/dashboard.html", {
+        "ingresos_total": ingresos_total,
+        "gastos_total": gastos_total,
+        "balance": balance
+    })
 
-    # Obtener propiedad seleccionada
-    propiedad_id = request.GET.get('propiedad')
+    return render(
+        request,
+        "core/dashboard.html",
+        {
+            "ingresos_total": ingresos_total,
+            "gastos_total": gastos_total,
+            "balance": ingresos_total - gastos_total,
+        },
+    )
 
-    if propiedad_id:
-        propiedad = Propiedad.objects.get(id=propiedad_id)
+
+@login_required
+def crear_ingreso(request):
+    if request.method == "POST":
+        form = IngresoForm(request.POST)
+        if form.is_valid():
+            ingreso = form.save(commit=False)
+            ingreso.creado_por = request.user
+            ingreso.save()
+            return redirect("dashboard")
     else:
-        propiedad = propiedades.first()
+        form = IngresoForm()
 
-    # Balance general
-    ingresos_total = Ingreso.objects.filter(propiedad=propiedad).aggregate(
-        total=Sum('monto_bruto') - Sum('comision')
-    )['total'] or 0
+    return render(request, "core/crear_ingreso.html", {"form": form})
 
-    gastos_total = Gasto.objects.filter(propiedad=propiedad).aggregate(
-        total=Sum('monto')
-    )['total'] or 0
 
-    # Balance mensual
-    ingresos_mensuales = (
-        Ingreso.objects
-        .filter(propiedad=propiedad)
-        .annotate(mes=TruncMonth('fecha'))
-        .values('mes')
-        .annotate(total=Sum('monto_bruto') - Sum('comision'))
-        .order_by('mes')
-    )
+@login_required
+def crear_gasto(request):
+    if request.method == "POST":
+        form = GastoForm(request.POST)
+        if form.is_valid():
+            gasto = form.save(commit=False)
+            gasto.creado_por = request.user
+            gasto.save()
+            return redirect("dashboard")
+    else:
+        form = GastoForm()
 
-    gastos_mensuales = (
-        Gasto.objects
-        .filter(propiedad=propiedad)
-        .annotate(mes=TruncMonth('fecha'))
-        .values('mes')
-        .annotate(total=Sum('monto'))
-    )
+    return render(request, "core/crear_gasto.html", {"form": form})
 
-    gastos_por_mes = {g['mes']: g['total'] for g in gastos_mensuales}
-
-    balance_mensual = []
-    for i in ingresos_mensuales:
-        gastos_mes = gastos_por_mes.get(i['mes'], 0)
-        balance_mensual.append({
-            'mes': i['mes'],
-            'ingresos': i['total'],
-            'gastos': gastos_mes,
-            'utilidad': i['total'] - gastos_mes
-        })
-
-    # Balance anual
-    ingresos_anuales = (
-        Ingreso.objects
-        .filter(propiedad=propiedad)
-        .annotate(anio=TruncYear('fecha'))
-        .values('anio')
-        .annotate(total=Sum('monto_bruto') - Sum('comision'))
-        .order_by('anio')
-    )
-
-    gastos_anuales = (
-        Gasto.objects
-        .filter(propiedad=propiedad)
-        .annotate(anio=TruncYear('fecha'))
-        .values('anio')
-        .annotate(total=Sum('monto'))
-    )
-
-    gastos_por_anio = {g['anio']: g['total'] for g in gastos_anuales}
-
-    balance_anual = []
-    for i in ingresos_anuales:
-        gastos_anio = gastos_por_anio.get(i['anio'], 0)
-        balance_anual.append({
-            'anio': i['anio'].year,
-            'ingresos': i['total'],
-            'gastos': gastos_anio,
-            'utilidad': i['total'] - gastos_anio
-        })
-
-    contexto = {
-        'propiedades': propiedades,
-        'propiedad_actual': propiedad.id if propiedad else None,
-        'propiedad': propiedad,
-        'ingresos': ingresos_total,
-        'gastos': gastos_total,
-        'utilidad': ingresos_total - gastos_total,
-        'balance_mensual': balance_mensual,
-        'balance_anual': balance_anual
-    }
-
-    return render(request, 'core/dashboard.html', contexto)

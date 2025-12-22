@@ -1,79 +1,23 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard Financiero</title>
-    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <title>Dashboard</title>
 </head>
 <body>
 
-<div class="container">
+<h2>Resumen financiero</h2>
 
-    <form method="get">
-        <label><strong>Propiedad:</strong></label>
-        <select name="propiedad" onchange="this.form.submit()">
-            {% for p in propiedades %}
-                <option value="{{ p.id }}" {% if p.id == propiedad_actual %}selected{% endif %}>
-                    {{ p.nombre }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
+<ul>
+    <li><strong>Ingresos:</strong> ${{ ingresos_total }}</li>
+    <li><strong>Gastos:</strong> ${{ gastos_total }}</li>
+    <li><strong>Balance:</strong> ${{ balance }}</li>
+</ul>
 
-    <h1>Dashboard</h1>
+<hr>
 
-    <div class="summary">
-        <div class="card">
-            <strong>Ingresos</strong>
-            <span>{{ ingresos }}</span>
-        </div>
-        <div class="card">
-            <strong>Gastos</strong>
-            <span>{{ gastos }}</span>
-        </div>
-        <div class="card">
-            <strong>Utilidad</strong>
-            <span>{{ utilidad }}</span>
-        </div>
-    </div>
-
-    <h2>Balance Mensual</h2>
-    <table>
-        <tr>
-            <th>Mes</th>
-            <th>Ingresos</th>
-            <th>Gastos</th>
-            <th>Utilidad</th>
-        </tr>
-        {% for b in balance_mensual %}
-        <tr>
-            <td>{{ b.mes|date:"Y-m" }}</td>
-            <td>{{ b.ingresos }}</td>
-            <td>{{ b.gastos }}</td>
-            <td>{{ b.utilidad }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <h2>Balance Anual</h2>
-    <table>
-        <tr>
-            <th>Año</th>
-            <th>Ingresos</th>
-            <th>Gastos</th>
-            <th>Utilidad</th>
-        </tr>
-        {% for b in balance_anual %}
-        <tr>
-            <td>{{ b.anio }}</td>
-            <td>{{ b.ingresos }}</td>
-            <td>{{ b.gastos }}</td>
-            <td>{{ b.utilidad }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-</div>
+<a href="{% url 'crear_gasto' %}">Nuevo gasto</a><br>
+<a href="{% url 'crear_ingreso' %}">Nuevo ingreso</a><br>
+<a href="{% url 'logout' %}">Cerrar sesión</a>
 
 </body>
 </html>
