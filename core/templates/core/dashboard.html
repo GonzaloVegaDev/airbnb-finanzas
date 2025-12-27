@@ -1,23 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
+{% load static %}
+<link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
-<h2>Resumen financiero</h2>
+<h1>Dashboard financiero</h1>
 
-<ul>
-    <li><strong>Ingresos:</strong> ${{ ingresos_total }}</li>
-    <li><strong>Gastos:</strong> ${{ gastos_total }}</li>
-    <li><strong>Balance:</strong> ${{ balance }}</li>
-</ul>
+<form method="get" class="filtros">
+    <label>Mes:</label>
+<select name="mes">
+    {% for m in meses %}
+        <option value="{{ m }}"
+            {% if mes == m %}selected{% endif %}>
+            {{ m }}
+        </option>
+    {% endfor %}
+</select>
 
-<hr>
+    <label>Año:</label>
+    <input type="number" name="anio" value="{{ anio }}" min="2020">
 
-<a href="{% url 'crear_gasto' %}">Nuevo gasto</a><br>
-<a href="{% url 'crear_ingreso' %}">Nuevo ingreso</a><br>
-<a href="{% url 'logout' %}">Cerrar sesión</a>
+    <button type="submit">Filtrar</button>
+</form>
 
-</body>
-</html>
+<section class="resumen-general">
+    <h2>Resumen general</h2>
+
+    <div class="resumen-cards">
+        <div class="card">
+            <h4>Ingresos brutos</h4>
+            <p class="monto positivo">
+                ${{ total_ingresos }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h4>Comisiones</h4>
+            <p class="monto negativo">
+                ${{ total_comisiones }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h4>Gastos</h4>
+            <p class="monto negativo">
+                ${{ total_gastos }}
+            </p>
+        </div>
+
+        <div class="card">
+            <h4>Balance</h4>
+            <p class="monto {% if balance >= 0 %}positivo{% else %}negativo{% endif %}">
+                ${{ balance }}
+            </p>
+        </div>
+    </div>
+</section>
+
+<h2>Ingresos del mes</h2>
+
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Plataforma</th>
+            <th>Bruto</th>
+            <th>Comisión</th>
+            <th>Neto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingreso in ingresos %}
+        <tr>
+            <td>{{ ingreso.fecha }}</td>
+            <td>{{ ingreso.plataforma }}</td>
+            <td>${{ ingreso.monto_bruto }}</td>
+            <td>${{ ingreso.comision }}</td>
+            <td>
+                ${{ ingreso.monto_bruto|floatformat:2|add:"-"|add:ingreso.comision }}
+            </td>
+            <td>{{ ingreso.descripcion }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No hay ingresos registrados este mes.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Gastos del mes</h2>
+
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Categoría</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gasto in gastos %}
+        <tr>
+            <td>{{ gasto.fecha }}</td>
+            <td>${{ gasto.monto }}</td>
+            <td>{{ gasto.categoria }}</td>
+            <td>{{ gasto.descripcion }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay gastos registrados este mes.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

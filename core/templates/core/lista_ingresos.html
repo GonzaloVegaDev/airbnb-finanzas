@@ -1,0 +1,35 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'core/styles.css' %}">
+
+<h1>Ingresos</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingreso in ingresos %}
+        <tr>
+            <td>{{ ingreso.fecha }}</td>
+            <td>${{ ingreso.monto_bruto }}</td>
+            <td>{{ ingreso.descripcion }}</td>
+            <td>
+                <a href="{% url 'editar_ingreso' ingreso.id %}">Editar</a>
+                |
+                <a href="{% url 'eliminar_ingreso' ingreso.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No hay ingresos registrados</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'crear_ingreso' %}">+ Nuevo ingreso</a>

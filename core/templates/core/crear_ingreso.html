@@ -1,20 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nuevo ingreso</title>
-</head>
-<body>
+{% load static %}
+<link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
-<h1>Nuevo ingreso</h1>
+{% if form.errors %}
+    <pre>{{ form.errors }}</pre>
+{% endif %}
 
-<form method="post">
+
+<h1>
+    {% if editar %}
+        Editar ingreso
+    {% else %}
+        Nuevo ingreso
+    {% endif %}
+</h1>
+
+<form method="post" class="form-card">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+
+    {{ form.non_field_errors }}
+
+    <label>Fecha</label>
+    {{ form.fecha }}
+
+    <label>Monto bruto</label>
+    {{ form.monto_bruto }}
+
+    <label>Comisión Airbnb</label>
+    {{ form.comision }}
+
+    <label>Plataforma</label>
+    {{ form.plataforma }}
+
+    <label>Propiedad</label>
+    {{ form.propiedad }}
+
+    <label>Descripción</label>
+    {{ form.descripcion }}
+
+    <div class="neto-preview">
+        <strong>Monto neto:</strong>
+        <span id="monto-neto">$0.00</span>
+    </div>
+
+    <button type="submit">
+        {% if editar %}Guardar cambios{% else %}Guardar ingreso{% endif %}
+    </button>
 </form>
 
-<a href="{% url 'dashboard' %}">Volver al dashboard</a>
 
-</body>
-</html>
+<script>
+const bruto = document.getElementById("id_monto_bruto");
+const comision = document.getElementById("id_comision");
+const neto = document.getElementById("monto-neto");
+
+function actualizarNeto() {
+    const b = parseFloat(bruto.value) || 0;
+    const c = parseFloat(comision.value) || 0;
+    neto.textContent = "$" + (b - c).toFixed(2);
+}
+
+bruto.addEventListener("input", actualizarNeto);
+comision.addEventListener("input", actualizarNeto);
+</script>

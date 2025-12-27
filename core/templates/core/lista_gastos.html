@@ -1,0 +1,36 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'core/styles.css' %}">
+
+<h1>Gastos</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for gasto in gastos %}
+        <tr>
+            <td>{{ gasto.fecha }}</td>
+            <td>${{ gasto.monto }}</td>
+            <td>{{ gasto.categoria }}</td>
+            <td>
+                <a href="{% url 'editar_gasto' gasto.id %}">Editar</a>
+                |
+                <a href="{% url 'eliminar_gasto' gasto.id %}">Eliminar</a>
+            </td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No hay gastos registrados</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'crear_gasto' %}">+ Nuevo gasto</a>

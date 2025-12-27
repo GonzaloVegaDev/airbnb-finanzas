@@ -15,15 +15,16 @@ class Propiedad(models.Model):
 
 class Ingreso(models.Model):
     propiedad = models.ForeignKey(Propiedad, on_delete=models.CASCADE)
+    monto_bruto = models.DecimalField(max_digits=10, decimal_places=2)
+    comision = models.DecimalField(max_digits=10, decimal_places=2)
+    descripcion = models.CharField(max_length=255, blank=True)
     fecha = models.DateField()
-    plataforma = models.CharField(max_length=50, blank=True)
-    monto_bruto = models.DecimalField(max_digits=12, decimal_places=2)
-    comision = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    creado_por = models.ForeignKey(User, on_delete=models.PROTECT)
+    plataforma = models.CharField(max_length=50)
+    creado_por = models.ForeignKey(User, on_delete=models.CASCADE)
     creado_en = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.propiedad} - {self.fecha}"
+    def monto_neto(self):
+        return self.monto_bruto - self.comision
 
 
 class Gasto(models.Model):
