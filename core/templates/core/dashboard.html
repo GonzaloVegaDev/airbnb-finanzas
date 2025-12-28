@@ -31,28 +31,28 @@
         <div class="card">
             <h4>Ingresos brutos</h4>
             <p class="monto positivo">
-                ${{ total_ingresos }}
+                ${{ total_ingresos|floatformat:2 }}
             </p>
         </div>
 
         <div class="card">
             <h4>Comisiones</h4>
             <p class="monto negativo">
-                ${{ total_comisiones }}
+                ${{ total_comisiones|floatformat:2 }}
             </p>
         </div>
 
         <div class="card">
             <h4>Gastos</h4>
             <p class="monto negativo">
-                ${{ total_gastos }}
+                ${{ total_gastos|floatformat:2 }}
             </p>
         </div>
 
         <div class="card">
             <h4>Balance</h4>
             <p class="monto {% if balance >= 0 %}positivo{% else %}negativo{% endif %}">
-                ${{ balance }}
+                ${{ balance|floatformat:2 }}
             </p>
         </div>
     </div>
@@ -78,7 +78,7 @@
             <td>{{ ingreso.plataforma }}</td>
             <td>${{ ingreso.monto_bruto }}</td>
             <td>${{ ingreso.comision }}</td>
-            <td>${{ ingreso.monto_bruto|floatformat:2|add:"-"|add:ingreso.comision }}</td>
+           <td>${{ ingreso.monto_neto|floatformat:2 }}</td>
             <td>{{ ingreso.descripcion }}</td>
         </tr>
         {% empty %}

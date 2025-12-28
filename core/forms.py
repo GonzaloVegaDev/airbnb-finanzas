@@ -34,4 +34,13 @@ class IngresoForm(forms.ModelForm):
 class GastoForm(forms.ModelForm):
     class Meta:
         model = Gasto
-        fields = ["propiedad", "monto", "categoria", "fecha"]
+        fields = [
+            "fecha",
+            "propiedad", 
+            "monto", 
+            "categoria",
+            "descripcion",
+            ]
+        widgets = {
+            "fecha": forms.DateInput(attrs={"type": "date"}),            
+        }

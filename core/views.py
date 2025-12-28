@@ -89,7 +89,10 @@ def crear_gasto(request):
     else:
         form = GastoForm()
 
-    return render(request, "core/crear_gasto.html", {"form": form})
+    return render(request, "core/crear_gasto.html", {
+        "form": form,
+        "editar": False,
+        })
 
 def lista_ingresos(request):
     ingresos = Ingreso.objects.all().order_by("-fecha")
@@ -153,7 +156,7 @@ def editar_gasto(request, pk):
 
     return render(request, "core/editar_gasto.html", {
         "form": form,
-        "gasto": gasto,
+        "editar": True,
     })
 
 @login_required

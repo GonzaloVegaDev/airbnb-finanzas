@@ -38,6 +38,7 @@ class Gasto(models.Model):
         related_name="gastos"
     )
     creado_en = models.DateTimeField(auto_now_add=True)
-
+    descripcion = models.TextField(blank=True, null=True)
+    
     def __str__(self):
         return f"{self.propiedad} - {self.categoria}"

@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Nuevo Gasto</title>
-</head>
-<body>
+{% extends "core/base.html" %}
+{% load static %}
 
-<h2>Registrar Gasto</h2>
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
-<form method="post">
+<h1>
+    {% if editar %}
+        Editar gasto
+    {% else %}
+        Nuevo gasto
+    {% endif %}
+</h1>
+
+<form method="post" class="form-card">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
+
+    {{ form.non_field_errors }}
+
+    <label>Fecha</label>
+    {{ form.fecha }}
+
+    <label>Monto</label>
+    {{ form.monto }}
+
+    <label>Categoría</label>
+    {{ form.categoria }}
+
+    <label>Propiedad</label>
+    {{ form.propiedad }}
+
+    <label>Descripción</label>
+    {{ form.descripcion }}
+
+    <button type="submit">
+        {% if editar %}Guardar cambios{% else %}Guardar gasto{% endif %}
+    </button>
 </form>
-
-<a href="{% url 'dashboard' %}">Volver</a>
-
-</body>
-</html>
+{% endblock %}

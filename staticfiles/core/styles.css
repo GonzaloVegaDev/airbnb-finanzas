@@ -1,0 +1,46 @@
+.resumen-cards,
+.propiedades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.propiedad-card h3 {
+    margin-top: 0;
+}
+
+.monto {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.positivo {
+    color: #1a7f37;
+}
+
+.negativo {
+    color: #c92a2a;
+}
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.tabla th,
+.tabla td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.tabla th {
+    background-color: #f5f5f5;
+    text-align: left;
+}
