@@ -137,6 +137,8 @@ def eliminar_ingreso(request, pk):
         "tipo": "ingreso",
     })
 
+
+
 @login_required
 def editar_gasto(request, pk):
     gasto = get_object_or_404(Gasto, pk=pk)
@@ -145,13 +147,13 @@ def editar_gasto(request, pk):
         form = GastoForm(request.POST, instance=gasto)
         if form.is_valid():
             form.save()
-            return redirect("dashboard")
+            return redirect("lista_gastos")
     else:
         form = GastoForm(instance=gasto)
 
-    return render(request, "core/crear_gasto.html", {
+    return render(request, "core/editar_gasto.html", {
         "form": form,
-        "modo": "editar",
+        "gasto": gasto,
     })
 
 @login_required
@@ -162,11 +164,7 @@ def eliminar_gasto(request, pk):
         gasto.delete()
         return redirect("dashboard")
 
-    return render(
-        request,
-        "core/confirmar_eliminar.html",
-        {
-            "objeto": gasto,
-            "tipo": "gasto",
-        }
-    )
+    return render(request, "core/confirmar_eliminar.html", {
+        "objeto": gasto,
+        "tipo": "gasto",
+    })

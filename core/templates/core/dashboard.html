@@ -1,4 +1,8 @@
+{% extends "core/base.html" %}
+
 {% load static %}
+
+{% block content %}
 <link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
 <h1>Dashboard financiero</h1>
@@ -74,9 +78,7 @@
             <td>{{ ingreso.plataforma }}</td>
             <td>${{ ingreso.monto_bruto }}</td>
             <td>${{ ingreso.comision }}</td>
-            <td>
-                ${{ ingreso.monto_bruto|floatformat:2|add:"-"|add:ingreso.comision }}
-            </td>
+            <td>${{ ingreso.monto_bruto|floatformat:2|add:"-"|add:ingreso.comision }}</td>
             <td>{{ ingreso.descripcion }}</td>
         </tr>
         {% empty %}
@@ -113,4 +115,4 @@
         {% endfor %}
     </tbody>
 </table>
-
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Finanzas{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a> |
+        <a href="{% url 'lista_ingresos' %}">Ingresos</a> |
+        <a href="{% url 'lista_gastos' %}">Gastos</a>
+    </nav>
+    <hr>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

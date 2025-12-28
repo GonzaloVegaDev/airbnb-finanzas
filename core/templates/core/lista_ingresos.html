@@ -1,3 +1,5 @@
+{% extends "core/base.html" %}
+{% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
@@ -33,3 +35,4 @@
 
 <br>
 <a href="{% url 'crear_ingreso' %}">+ Nuevo ingreso</a>
+{% endblock %}
