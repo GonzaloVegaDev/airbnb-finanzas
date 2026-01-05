@@ -4,36 +4,41 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
-<h1>
-    {% if editar %}
-        Editar gasto
-    {% else %}
-        Nuevo gasto
-    {% endif %}
-</h1>
+<h1>{% if editar %}Editar gasto{% else %}Nuevo gasto{% endif %}</h1>
 
 <form method="post" class="form-card">
     {% csrf_token %}
 
-    {{ form.non_field_errors }}
+    <div class="form-field">
+        <label for="{{ form.fecha.id_for_label }}">Fecha</label>
+        {{ form.fecha }}
+    </div>
 
-    <label>Fecha</label>
-    {{ form.fecha }}
+    <div class="form-field">
+        <label for="{{ form.monto.id_for_label }}">Monto</label>
+        {{ form.monto }}
+    </div>
 
-    <label>Monto</label>
-    {{ form.monto }}
+    <div class="form-field">
+        <label for="{{ form.categoria.id_for_label }}">Categoría</label>
+        {{ form.categoria }}
+    </div>
 
-    <label>Categoría</label>
-    {{ form.categoria }}
+    <div class="form-field">
+        <label for="{{ form.propiedad.id_for_label }}">Propiedad</label>
+        {{ form.propiedad }}
+    </div>
 
-    <label>Propiedad</label>
-    {{ form.propiedad }}
+    <div class="form-field">
+        <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+        {{ form.descripcion }}
+    </div>
 
-    <label>Descripción</label>
-    {{ form.descripcion }}
-
-    <button type="submit">
-        {% if editar %}Guardar cambios{% else %}Guardar gasto{% endif %}
-    </button>
+    <div class="form-actions">
+        <button type="submit">
+            {% if editar %}Guardar cambios{% else %}Guardar gasto{% endif %}
+        </button>
+        <a href="{% url 'lista_gastos' %}" class="btn-secondary">Cancelar</a>
+    </div>
 </form>
 {% endblock %}

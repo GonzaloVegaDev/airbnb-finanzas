@@ -1,67 +1,49 @@
 {% extends "core/base.html" %}
-{% block content %}
 {% load static %}
+
+{% block content %}
 <link rel="stylesheet" href="{% static 'core/styles.css' %}">
 
-{% if form.errors %}
-    <pre>{{ form.errors }}</pre>
-{% endif %}
-
-
-<h1>
-    {% if editar %}
-        Editar ingreso
-    {% else %}
-        Nuevo ingreso
-    {% endif %}
-</h1>
+<h1>{% if editar %}Editar ingreso{% else %}Nuevo ingreso{% endif %}</h1>
 
 <form method="post" class="form-card">
     {% csrf_token %}
 
-    {{ form.non_field_errors }}
-
-    <label>Fecha</label>
-    {{ form.fecha }}
-
-    <label>Monto bruto</label>
-    {{ form.monto_bruto }}
-
-    <label>Comisión Airbnb</label>
-    {{ form.comision }}
-
-    <label>Plataforma</label>
-    {{ form.plataforma }}
-
-    <label>Propiedad</label>
-    {{ form.propiedad }}
-
-    <label>Descripción</label>
-    {{ form.descripcion }}
-
-    <div class="neto-preview">
-        <strong>Monto neto:</strong>
-        <span id="monto-neto">$0.00</span>
+    <div class="form-field">
+        <label for="{{ form.fecha.id_for_label }}">Fecha</label>
+        {{ form.fecha }}
     </div>
 
-    <button type="submit">
-        {% if editar %}Guardar cambios{% else %}Guardar ingreso{% endif %}
-    </button>
+    <div class="form-field">
+        <label for="{{ form.monto_bruto.id_for_label }}">Monto bruto</label>
+        {{ form.monto_bruto }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.comision.id_for_label }}">Comisión</label>
+        {{ form.comision }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.plataforma.id_for_label }}">Plataforma</label>
+        {{ form.plataforma }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.propiedad.id_for_label }}">Propiedad</label>
+        {{ form.propiedad }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+        {{ form.descripcion }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit">
+            {% if editar %}Guardar cambios{% else %}Guardar ingreso{% endif %}
+        </button>
+        <a href="{% url 'lista_ingresos' %}" class="btn-secondary">Cancelar</a>
+    </div>
 </form>
-
-
-<script>
-const bruto = document.getElementById("id_monto_bruto");
-const comision = document.getElementById("id_comision");
-const neto = document.getElementById("monto-neto");
-
-function actualizarNeto() {
-    const b = parseFloat(bruto.value) || 0;
-    const c = parseFloat(comision.value) || 0;
-    neto.textContent = "$" + (b - c).toFixed(2);
-}
-
-bruto.addEventListener("input", actualizarNeto);
-comision.addEventListener("input", actualizarNeto);
-</script>
 {% endblock %}

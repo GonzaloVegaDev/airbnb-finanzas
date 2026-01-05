@@ -7,8 +7,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
-DEBUG = False
-ALLOWED_HOSTS = ["airbnb-finanzas.onrender.com"]
+DEBUG = True
+ALLOWED_HOSTS = ["airbnb-finanzas.onrender.com", "127.0.0.1", "localhost"]
 
 # Applications
 INSTALLED_APPS = [

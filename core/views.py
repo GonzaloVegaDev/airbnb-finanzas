@@ -154,7 +154,7 @@ def editar_gasto(request, pk):
     else:
         form = GastoForm(instance=gasto)
 
-    return render(request, "core/editar_gasto.html", {
+    return render(request, "core/crear_gasto.html", {
         "form": form,
         "editar": True,
     })

@@ -10,7 +10,8 @@ class IngresoForm(forms.ModelForm):
             "monto_bruto", 
             "comision", 
             "descripcion", 
-            "plataforma", 
+            "plataforma",
+            "propiedad", 
             ]
         widgets = {
             "fecha": forms.DateInput(attrs={"type": "date"}),
