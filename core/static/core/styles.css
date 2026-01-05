@@ -182,3 +182,84 @@
 .btn-secondary:hover {
     background: #d1d5db;
 }
+
+/* ===== DASHBOARD (SIN TABLAS) ===== */
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.data-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.data-row span {
+    color: #555;
+}
+
+.data-row strong {
+    font-weight: 600;
+}
+
+.data-row.highlight strong {
+    font-size: 15px;
+}
+
+.data-description {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #444;
+    border-top: 1px solid #eee;
+    padding-top: 6px;
+}
+
+/* ===== ACCIONES EN CARDS ===== */
+
+.card-actions {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+.card-actions a {
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Editar */
+.btn-edit {
+    background-color: #2563eb;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #1e40af;
+}
+
+/* Eliminar */
+.btn-delete {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-delete:hover {
+    background-color: #fecaca;
+}

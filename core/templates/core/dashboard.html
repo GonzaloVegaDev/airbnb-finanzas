@@ -60,59 +60,94 @@
 
 <h2>Ingresos del mes</h2>
 
-<table class="tabla">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Plataforma</th>
-            <th>Bruto</th>
-            <th>Comisión</th>
-            <th>Neto</th>
-            <th>Descripción</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for ingreso in ingresos %}
-        <tr>
-            <td>{{ ingreso.fecha }}</td>
-            <td>{{ ingreso.plataforma }}</td>
-            <td>${{ ingreso.monto_bruto }}</td>
-            <td>${{ ingreso.comision }}</td>
-           <td>${{ ingreso.monto_neto|floatformat:2 }}</td>
-            <td>{{ ingreso.descripcion }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="6">No hay ingresos registrados este mes.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="data-grid">
+    {% for ingreso in ingresos %}
+    <div class="data-card">
+        <div class="data-row">
+            <span>Fecha</span>
+            <strong>{{ ingreso.fecha }}</strong>
+        </div>
+
+        <div class="data-row">
+            <span>Plataforma</span>
+            <strong>{{ ingreso.plataforma }}</strong>
+        </div>
+
+        <div class="data-row">
+            <span>Bruto</span>
+            <strong>${{ ingreso.monto_bruto }}</strong>
+        </div>
+
+        <div class="data-row">
+            <span>Comisión</span>
+            <strong>${{ ingreso.comision }}</strong>
+        </div>
+
+        <div class="data-row highlight">
+            <span>Neto</span>
+            <strong>${{ ingreso.monto_neto|floatformat:2 }}</strong>
+        </div>
+
+        {% if ingreso.descripcion %}
+        <div class="data-description">
+            {{ ingreso.descripcion }}
+        </div>
+        {% endif %}
+
+        <div class="card-actions">
+            <a href="{% url 'editar_ingreso' ingreso.id %}" class="btn-edit">
+                Editar
+            </a>
+            <a href="{% url 'eliminar_ingreso' ingreso.id %}" class="btn-delete">
+                Eliminar
+            </a>
+        </div>
+    </div>
+
+    {% empty %}
+    <p>No hay ingresos registrados este mes.</p>
+    {% endfor %}
+</div>
+
 
 <h2>Gastos del mes</h2>
 
-<table class="tabla">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Categoría</th>
-            <th>Descripción</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for gasto in gastos %}
-        <tr>
-            <td>{{ gasto.fecha }}</td>
-            <td>${{ gasto.monto }}</td>
-            <td>{{ gasto.categoria }}</td>
-            <td>{{ gasto.descripcion }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">No hay gastos registrados este mes.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="data-grid">
+    {% for gasto in gastos %}
+    <div class="data-card">
+        <div class="data-row">
+            <span>Fecha</span>
+            <strong>{{ gasto.fecha }}</strong>
+        </div>
+
+        <div class="data-row">
+            <span>Monto</span>
+            <strong>${{ gasto.monto }}</strong>
+        </div>
+
+        <div class="data-row">
+            <span>Categoría</span>
+            <strong>{{ gasto.categoria }}</strong>
+        </div>
+
+        {% if gasto.descripcion %}
+        <div class="data-description">
+            {{ gasto.descripcion }}
+        </div>
+        {% endif %}
+
+        <div class="card-actions">
+            <a href="{% url 'editar_gasto' gasto.id %}" class="btn-edit">
+                Editar
+            </a>
+            <a href="{% url 'eliminar_gasto' gasto.id %}" class="btn-delete">
+                Eliminar
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No hay gastos registrados este mes.</p>
+    {% endfor %}
+</div>
+
 {% endblock %}
